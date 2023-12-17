@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -26,6 +26,11 @@
 
   <ItemGroup>
     <None Remove="Controllers\CountriesController.cs~RF3882fd9f.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\certificates\" />
+    <Folder Include="ClientApp\src\state\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

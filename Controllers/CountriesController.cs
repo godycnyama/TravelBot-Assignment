@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KAHA.TravelBot.NETCoreReactApp.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class CountriesController : ControllerBase
     {
@@ -15,8 +14,9 @@ namespace KAHA.TravelBot.NETCoreReactApp.Controllers
         {
             _travelBotService = travelBotService;
         }
-        // GET: api/<CountriesController>
-        [HttpGet("top5")]
+        
+        [HttpGet()]
+        [Route("api/countries/topfive")]
         public async Task<IActionResult> GetTopFive()
         {
             try
@@ -35,8 +35,8 @@ namespace KAHA.TravelBot.NETCoreReactApp.Controllers
             }
         }
 
-        // GET api/<CountriesController>/Zimbabwe
-        [HttpGet("{countryName}")]
+        [HttpGet()]
+        [Route("api/countries/{countryName}")]
         public async Task<IActionResult> GetSummary(string countryName)
         {
             try
@@ -56,8 +56,8 @@ namespace KAHA.TravelBot.NETCoreReactApp.Controllers
             }
         }
 
-        // POST api/<CountriesController>
-        [HttpGet("random")]
+        [HttpGet()]
+        [Route("api/countries/randomCountry")]
         public async Task<IActionResult> GetRandomCountry()
         {
             try

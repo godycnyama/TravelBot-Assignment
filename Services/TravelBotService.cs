@@ -32,13 +32,14 @@ namespace KAHA.TravelBot.NETCoreReactApp.Services
                     {
                         var country = new CountryModel
                         {
-                            Name = x["name"]["common"].ToString(),
-                            Capital = x["capital"][0].ToString(),
-                            Latitude = float.Parse(x["capitalInfo"]["latlng"][0].ToString()),
-                            Longitude = float.Parse(x["capitalInfo"]["latlng"][1].ToString()),
-                            CarsDriveOnSide = x["car"]["side"].ToString(),
-                            StartOfWeek = x["startOfWeek"].ToString(),
-                            NumberOfLanguages = x["languages"].Count(),
+                            Name = x["name"]["common"]?.ToString(),
+                            Capital = x["capital"]?.First?.ToString(),
+                            Population = x["population"] != null ? int.Parse(x["population"]?.ToString()) : 0,
+                            Latitude = x["capitalInfo"]?["latlng"]?.First != null ? float.Parse(x["capitalInfo"]["latlng"].First.ToString()) : 0,
+                            Longitude = x["capitalInfo"]?["latlng"]?.Last != null ? float.Parse(x["capitalInfo"]["latlng"].Last.ToString()) : 0,
+                            CarsDriveOnSide = x["car"]?["side"]?.ToString(),
+                            StartOfWeek = x["startOfWeek"]?.ToString(),
+                            NumberOfLanguages = x["languages"]?.Count() ?? 0
                         };
                         countries.Add(country);
                     }
@@ -48,7 +49,6 @@ namespace KAHA.TravelBot.NETCoreReactApp.Services
                     }
                 }
             }
-
             return countries;
         }
 
@@ -58,7 +58,7 @@ namespace KAHA.TravelBot.NETCoreReactApp.Services
             try
             {
                 Countries = await GetAllCountries();
-                return Countries.OrderBy(x => x.Population).Take(5).ToList();
+                return Countries.OrderByDescending(x => x.Population).Take(5).ToList();
             }
             catch (Exception)
             {
@@ -73,7 +73,7 @@ namespace KAHA.TravelBot.NETCoreReactApp.Services
             try
             {
                 Countries = await GetAllCountries();
-                CountryModel country = Countries.FirstOrDefault(x => x.Equals(countryName));
+                CountryModel country = Countries.Where(x => x.Name.Equals(countryName)).FirstOrDefault();
                 SunriseSunsetResponse sunriseSunsetTimes = await GetSunriseSunsetTimes(country.Latitude, country.Longitude);
                 return new CountrySummaryModel
                 {

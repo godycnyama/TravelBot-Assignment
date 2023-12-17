@@ -20,6 +20,13 @@ builder.Services.AddHttpClient("SunriseSunset", httpClient =>
     httpClient.DefaultRequestHeaders.Add(
         HeaderNames.Accept, "application/json");
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+});
 
 var app = builder.Build();
 
@@ -30,6 +37,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
