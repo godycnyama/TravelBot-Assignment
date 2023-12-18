@@ -5,10 +5,9 @@ import useStore from '../state/stateStore';
 
 export const CountrySummary = () => {
     const countrySummary = useStore((state) => state.countrySummary);
-    console.log(countrySummary);
     return (
         <div className="container">
-            <h2>Countries Summary</h2>
+            <h2>Country Summary</h2>
 
             <table className="table">
                 <tbody>
